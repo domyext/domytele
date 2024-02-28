@@ -9,6 +9,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strings"
+	"time"
 )
 
 type GithubModule struct{}
@@ -95,6 +96,19 @@ func (m *GithubModule) Handle(ctx context.Context, b *bot.Bot, update *models.Up
 				return
 			}
 
+			createdAtTime, err := time.Parse(time.RFC3339, user.CreatedAt)
+			if err != nil {
+				fmt.Println("Error parsing created at time:", err)
+				return
+			}
+			updatedAtTime, err := time.Parse(time.RFC3339, user.UpdatedAt)
+			if err != nil {
+				fmt.Println("Error parsing updated at time:", err)
+				return
+			}
+			createdAt := createdAtTime.Format("Jan 02, 2006 15:04:05 MST")
+			updatedAt := updatedAtTime.Format("Jan 02, 2006 15:04:05 MST")
+
 			// Format the user data into Markdown
 			text := fmt.Sprintf(`<b>GitHub Info for</b> %s
 
@@ -107,7 +121,7 @@ func (m *GithubModule) Handle(ctx context.Context, b *bot.Bot, update *models.Up
 <b>Following:</b> %d
 <b>Created At:</b> %s
 <b>Last Updated At:</b> %s`,
-				user.Login, user.Name, user.Bio, user.Location, user.Email, user.PublicRepos, user.Followers, user.Following, user.CreatedAt, user.UpdatedAt)
+				user.Login, user.Name, user.Bio, user.Location, user.Email, user.PublicRepos, user.Followers, user.Following, createdAt, updatedAt)
 
 			params := &bot.SendMessageParams{
 				ChatID:    update.Message.Chat.ID,
