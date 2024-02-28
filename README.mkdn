@@ -1,0 +1,9 @@
+# Hana - Modular Telegram Bot written in Golang
+Hana is a Telegram Bot designed to be modular and easy to develop.
+
+## Configuration
+Bot configuration is fairly easy. It can be stored in a .env file or in environment variables.
+
+## Notes
+
+Documentation will be added as the development progresses. Please be patient, as it may take some time.
