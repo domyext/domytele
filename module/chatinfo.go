@@ -26,10 +26,10 @@ func (m *ChatInfoModule) Handle(ctx context.Context, b *bot.Bot, update *models.
 		msgText = fmt.Sprintf(chat, chatID, senderID)
 	} else {
 		chat := `
-* Chat Info *
+*Chat Info*
 
-* Chat Type: * %s
-* Sender ID: * %s
+*Chat Type: * %s
+*Sender ID: * %s
 `
 		msgText = fmt.Sprintf(chat, chatType, senderID)
 	}
