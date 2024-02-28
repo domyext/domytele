@@ -78,8 +78,17 @@ func (m *GithubModule) Handle(ctx context.Context, b *bot.Bot, update *models.Up
 		if len(parts) > 1 {
 			// Extract the arguments
 			args := parts[1:]
+			// Check if the input contains spaces
+			if len(args) != 1 || strings.Contains(args[0], " ") {
+				b.SendMessage(ctx, &bot.SendMessageParams{
+					ChatID: update.Message.Chat.ID,
+					Text:   "Please enter a valid GitHub username without spaces.",
+				})
+				return
+			}
+
 			// Process the arguments
-			username := strings.Join(args, " ")
+			username := args[0]
 			user, err := getUserData(username)
 			if err != nil {
 				fmt.Println("Error getting user data:", err)
@@ -114,11 +123,11 @@ func (m *GithubModule) Handle(ctx context.Context, b *bot.Bot, update *models.Up
 			// If no arguments provided
 			b.SendMessage(ctx, &bot.SendMessageParams{
 				ChatID: update.Message.Chat.ID,
-				Text:   "You need to specify GitHub Username!",
+				Text:   "You need to specify a GitHub username!",
 			})
 		}
 
-		fmt.Println("[LOG] Gtihub module executed successfully")
+		fmt.Println("[LOG] GitHub module executed successfully")
 	}
 }
 
