@@ -19,6 +19,7 @@ func main() {
 
 	opts := []bot.Option{
 		bot.WithDefaultHandler(handler),
+		bot.WithCallbackQueryDataHandler("button", bot.MatchTypePrefix, callbackHandler),
 	}
 
 	b, err := bot.New(config.BotToken, opts...) // Update with your bot token
@@ -31,4 +32,8 @@ func main() {
 
 func handler(ctx context.Context, b *bot.Bot, update *models.Update) {
 	module.DispatchMessage(ctx, b, update)
+}
+
+func callbackHandler(ctx context.Context, b *bot.Bot, update *models.Update) {
+	module.Dispatchcallback(ctx, b, update)
 }
