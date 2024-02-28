@@ -13,7 +13,7 @@ type TimeModule struct{}
 
 func (m *TimeModule) Handle(ctx context.Context, b *bot.Bot, update *models.Update) {
 	message := update.Message.Text
-	currentTime := time.Now().Format("2006-01-02 15:04:05")
+	currentTime := time.Now().Format("Mon Jan 2 15:04:05 UTC 2006")
 	respondMessage := fmt.Sprint("It's currently " + currentTime)
 	if strings.HasPrefix(message, "/time") {
 		b.SendMessage(ctx, &bot.SendMessageParams{
