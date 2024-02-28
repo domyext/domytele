@@ -18,23 +18,14 @@ func (m *ChatInfoModule) Handle(ctx context.Context, b *bot.Bot, update *models.
 
 	var msgText string
 	if chatType == "group" {
-		chat := `
-* Chat Info *
-
-* Group ID: * %s
-* Sender ID: * %s
-`
-		msgText = fmt.Sprintf(chat, chatID, senderID)
+		chat := "*Chat Info*\n\n*Group ID:* `" + chatID + "`\n*Sender ID:* `" + senderID + "`"
+		msgText = chat
 	} else {
-		chat := `
-*Chat Info*
-
-*Chat Type: * %s
-*Sender ID: * %s
-`
-		msgText = fmt.Sprintf(chat, chatType, senderID)
+		chat := "*Chat Info*\n\n*Chat Type:* `" + chatType + "`\n*Sender ID:* `" + senderID + "`"
+		msgText = chat
 	}
 	if strings.HasPrefix(message, "/chat") {
+
 		b.SendMessage(ctx, &bot.SendMessageParams{
 			ChatID:    int64(update.Message.Chat.ID),
 			ParseMode: "MarkdownV2",
