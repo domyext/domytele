@@ -20,7 +20,7 @@ func (m *TimeModule) Handle(ctx context.Context, b *bot.Bot, update *models.Upda
 			ChatID: update.Message.Chat.ID,
 			Text:   respondMessage,
 		})
-		fmt.Print("[LOG] Time module executed successfully")
+		fmt.Println("[LOG] Time module executed successfully")
 	}
 }
 
