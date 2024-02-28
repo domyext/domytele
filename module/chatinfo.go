@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/go-telegram/bot"
 	"github.com/go-telegram/bot/models"
+	"strings"
 )
 
 type ChatInfoModule struct{}
@@ -33,8 +34,7 @@ func (m *ChatInfoModule) Handle(ctx context.Context, b *bot.Bot, update *models.
 `
 		msgText = fmt.Sprintf(chat, chatType, senderID)
 	}
-
-	if message == "/chat" {
+	if strings.HasPrefix(message, "/chat") {
 		b.SendMessage(ctx, &bot.SendMessageParams{
 			ChatID:    int64(update.Message.Chat.ID),
 			ParseMode: "MarkdownV2",
