@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/go-telegram/bot"
 	"github.com/go-telegram/bot/models"
+	"hanacore/utils/console"
 	"math/rand"
 	"strings"
 	"time"
@@ -13,14 +14,18 @@ import (
 type StartModule struct{}
 
 func (m *StartModule) Handle(ctx context.Context, b *bot.Bot, update *models.Update) {
+	moduleName := "Start"
+	moduleCommand := "/start"
+	senderID := bot.EscapeMarkdown(fmt.Sprintf("%d", update.Message.From.ID)) // Convert int64 to string
+
 	message := update.Message.Text
-	if strings.HasPrefix(message, "/start") {
+	if strings.HasPrefix(message, moduleCommand) {
 		randomMessage := getRandomMessage()
 		b.SendMessage(ctx, &bot.SendMessageParams{
 			ChatID: update.Message.Chat.ID,
 			Text:   randomMessage,
 		})
-		fmt.Println("[LOG] Start module executed successfully")
+		console.ShowLog(moduleName, senderID)
 	}
 }
 

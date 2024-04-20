@@ -5,14 +5,18 @@ import (
 	"fmt"
 	"github.com/go-telegram/bot"
 	"github.com/go-telegram/bot/models"
+	"hanacore/utils/console"
 	"strings"
 )
 
 type ChatInfoModule struct{}
 
 func (m *ChatInfoModule) Handle(ctx context.Context, b *bot.Bot, update *models.Update) {
-	message := update.Message.Text
+	moduleName := "Chat Info"
+	moduleCommand := "/chat"
 	senderID := bot.EscapeMarkdown(fmt.Sprintf("%d", update.Message.From.ID)) // Convert int64 to string
+
+	message := update.Message.Text
 	chatType := bot.EscapeMarkdown(update.Message.Chat.Type)
 	chatID := bot.EscapeMarkdown(fmt.Sprintf("%d", update.Message.Chat.ID)) // Convert int64 to string
 
@@ -24,14 +28,14 @@ func (m *ChatInfoModule) Handle(ctx context.Context, b *bot.Bot, update *models.
 		chat := "*Chat Info*\n\n*Chat Type:* `" + chatType + "`\n*Sender ID:* `" + senderID + "`"
 		msgText = chat
 	}
-	if strings.HasPrefix(message, "/chat") {
+	if strings.HasPrefix(message, moduleCommand) {
 
 		b.SendMessage(ctx, &bot.SendMessageParams{
 			ChatID:    int64(update.Message.Chat.ID),
 			ParseMode: "MarkdownV2",
 			Text:      msgText,
 		})
-		fmt.Println("[LOG] Chat info module executed successfully")
+		console.ShowLog(moduleName, senderID)
 	}
 }
 

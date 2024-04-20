@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/go-telegram/bot"
 	"github.com/go-telegram/bot/models"
+	"hanacore/utils/console"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -72,8 +73,12 @@ func getUserData(username string) (*User, error) {
 }
 
 func (m *GithubModule) Handle(ctx context.Context, b *bot.Bot, update *models.Update) {
+	moduleName := "GitHub"
+	moduleCommand := "/github"
+	senderID := bot.EscapeMarkdown(fmt.Sprintf("%d", update.Message.From.ID)) // Convert int64 to string
+
 	message := update.Message.Text
-	if strings.HasPrefix(message, "/github") {
+	if strings.HasPrefix(message, moduleCommand) {
 
 		parts := strings.Fields(message)
 		if len(parts) > 1 {
@@ -141,7 +146,7 @@ func (m *GithubModule) Handle(ctx context.Context, b *bot.Bot, update *models.Up
 			})
 		}
 
-		fmt.Println("[LOG] GitHub module executed successfully")
+		console.ShowLog(moduleName, senderID)
 	}
 }
 

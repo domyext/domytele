@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/go-telegram/bot"
 	"github.com/go-telegram/bot/models"
+	"hanacore/utils/console"
 	"math/rand"
 	"strings"
 	"time"
@@ -13,6 +14,9 @@ import (
 type ToDModule struct{}
 
 func (m *ToDModule) Handle(ctx context.Context, b *bot.Bot, update *models.Update) {
+	moduleName := "Truth or Dare"
+	senderID := bot.EscapeMarkdown(fmt.Sprintf("%d", update.Message.From.ID)) // Convert int64 to string
+
 	message := update.Message.Text
 	switch {
 	case strings.HasPrefix(message, "/truth"):
@@ -20,13 +24,13 @@ func (m *ToDModule) Handle(ctx context.Context, b *bot.Bot, update *models.Updat
 			ChatID: update.Message.Chat.ID,
 			Text:   getTruthMsg(),
 		})
-		fmt.Println("[LOG] ToD Truth module executed successfully")
+		console.ShowLog(moduleName, senderID)
 	case strings.HasPrefix(message, "/dare"):
 		b.SendMessage(ctx, &bot.SendMessageParams{
 			ChatID: update.Message.Chat.ID,
 			Text:   getDareMsg(),
 		})
-		fmt.Println("[LOG] ToD Dare module executed successfully")
+		console.ShowLog(moduleName, senderID)
 	case strings.HasPrefix(message, "/tod"):
 		challenge, challengeType := getRandomChallenge()
 
@@ -40,7 +44,7 @@ func (m *ToDModule) Handle(ctx context.Context, b *bot.Bot, update *models.Updat
 			ParseMode: "HTML",
 			Text:      text,
 		})
-		fmt.Println("[LOG] ToD Random module executed successfully")
+		console.ShowLog(moduleName, senderID)
 	}
 }
 
