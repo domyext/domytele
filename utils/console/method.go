@@ -8,24 +8,28 @@ import (
 	"time"
 )
 
-func ShowBotInfo(b *bot.Bot) {
-	botInfo, _ := b.GetMe(context.Background())
+func ShowBotInfo(b *bot.Bot) error {
+	botInfo, err := b.GetMe(context.Background())
+	if err != nil {
+		return err
+	}
 
 	output := fmt.Sprintf("Running as: %s %s\nBot handle: @%s", botInfo.FirstName, botInfo.LastName, botInfo.Username)
-
 	printBoxed(output)
+	return nil
 }
 
 func printBoxed(content string) {
 	lines := strings.Split(content, "\n")
 	maxLength := maxLength(lines)
-	border := fmt.Sprintf("┌%s┐\n", strings.Repeat("─", maxLength+2))
+	border := strings.Builder{}
+	border.WriteString(fmt.Sprintf("┌%s┐\n", strings.Repeat("─", maxLength+2)))
 	for _, line := range lines {
-		border += fmt.Sprintf("│ %-*s │\n", maxLength, line)
+		border.WriteString(fmt.Sprintf("│ %-*s │\n", maxLength, line))
 	}
-	border += fmt.Sprintf("└%s┘", strings.Repeat("─", maxLength+2))
+	border.WriteString(fmt.Sprintf("└%s┘", strings.Repeat("─", maxLength+2)))
 
-	fmt.Println(border)
+	fmt.Println(border.String())
 }
 
 func maxLength(lines []string) int {
