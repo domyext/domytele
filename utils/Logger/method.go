@@ -17,10 +17,12 @@ func ShowLog(module, senderID string) {
 }
 
 func SendLog(ctx context.Context, b *bot.Bot, update *models.Update, senderID, module string) {
-	currentTime := time.Now().Format("2006-01-02 15:04:05")
-	msgText := fmt.Sprintf("[%s] [%s] [LOG] %s Module executed successfully.", currentTime, senderID, module)
-	b.SendMessage(ctx, &bot.SendMessageParams{
-		ChatID: config.BotLogChat,
-		Text:   msgText,
-	})
+	if config.BotLogChat != "" {
+		currentTime := time.Now().Format("2006-01-02 15:04:05")
+		msgText := fmt.Sprintf("[%s] [%s] [LOG] %s Module executed successfully.", currentTime, senderID, module)
+		b.SendMessage(ctx, &bot.SendMessageParams{
+			ChatID: config.BotLogChat,
+			Text:   msgText,
+		})
+	}
 }
