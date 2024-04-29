@@ -23,5 +23,4 @@ func SendLog(ctx context.Context, b *bot.Bot, update *models.Update, senderID, m
 		ChatID: config.BotLogChat,
 		Text:   msgText,
 	})
-	fmt.Println("Sent bang")
 }
