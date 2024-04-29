@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/go-telegram/bot"
 	"github.com/go-telegram/bot/models"
+	logger "hanacore/utils/Logger"
 	"hanacore/utils/console"
 	"strings"
 )
@@ -36,6 +37,7 @@ func (m *ChatInfoModule) Handle(ctx context.Context, b *bot.Bot, update *models.
 			Text:      msgText,
 		})
 		console.ShowLog(moduleName, senderID)
+		logger.SendLog(ctx, b, update, senderID, moduleName)
 	}
 }
 
