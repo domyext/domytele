@@ -2,47 +2,37 @@ package module
 
 import (
 	"context"
-	"fmt"
 	"github.com/go-telegram/bot"
 	"github.com/go-telegram/bot/models"
-	logger "hanacore/utils/Logger"
-	"hanacore/utils/console"
 	"math/rand"
-	"strings"
 	"time"
 )
 
 type StartModule struct{}
 
+func ProvideStartModule() *StartModule {
+	return &StartModule{}
+}
+
 func (m *StartModule) Handle(ctx context.Context, b *bot.Bot, update *models.Update) {
-	moduleName := "Start"
-	moduleCommand := "/start"
-	senderID := bot.EscapeMarkdown(fmt.Sprintf("%d", update.Message.From.ID)) // Convert int64 to string
+	if update.Message.Text == "/start" {
+		messages := []string{
+			"Hello there! I am Hana",
+			"G'day mate! What's up?",
+			"Aye, howdy?",
+			"Greetings!",
+			"Yoyoyoyoyoyooo whaddup!",
+		}
+		rand.Seed(time.Now().UnixNano())
+		msgText := messages[rand.Intn(len(messages))]
 
-	message := update.Message.Text
-	if strings.HasPrefix(message, moduleCommand) {
-		randomMessage := getRandomMessage()
-		b.SendMessage(ctx, &bot.SendMessageParams{
+		_, _ = b.SendMessage(ctx, &bot.SendMessageParams{
 			ChatID: update.Message.Chat.ID,
-			Text:   randomMessage,
+			Text:   msgText,
 		})
-		console.ShowLog(moduleName, senderID)
-		logger.SendLog(ctx, b, update, senderID, moduleName)
 	}
 }
 
-func init() {
-	RegisterModule(&StartModule{})
-}
+func (m *StartModule) CallbackHandle(ctx context.Context, b *bot.Bot, update *models.Update) {
 
-func getRandomMessage() string {
-	messages := []string{
-		"Hello there! I am Hana",
-		"G'day mate! What's up?",
-		"Aye, howdy?",
-		"Greetings!",
-		"Yoyoyoyoyoyooo whaddup!",
-	}
-	rand.Seed(time.Now().UnixNano())
-	return messages[rand.Intn(len(messages))]
 }

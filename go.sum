@@ -1,2 +1,4 @@
 github.com/go-telegram/bot v1.2.1 h1:FkrixLCtMtPUQAN4plXdNElbhkdXkx2p68YPXKBruDg=
 github.com/go-telegram/bot v1.2.1/go.mod h1:i2TRs7fXWIeaceF3z7KzsMt/he0TwkVC680mvdTFYeM=
+go.uber.org/dig v1.18.0 h1:imUL1UiY0Mg4bqbFfsRQO5G4CGRBec/ZujWTvSVp3pw=
+go.uber.org/dig v1.18.0/go.mod h1:Us0rSJiThwCv2GteUN0Q7OKvU7n5J4dxZ9JKUXozFdE=
